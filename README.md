@@ -22,4 +22,4 @@ Quick search in ZCY Confluence
 
 ## Download
 
-[ZCY Confluence Search]()
+[ZCY Confluence Search](https://github.com/Thare-Lam/alfred-zcy-confluence-search/releases)
