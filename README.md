@@ -18,7 +18,7 @@ Quick search in ZCY Confluence
 
 2. Type keywords to search.
 
-    ![Screen Shot]()
+    ![Screen Shot](https://raw.githubusercontent.com/Thare-Lam/alfred-zcy-confluence-search/master/screenshot.jpg)
 
 ## Download
 
