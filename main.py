@@ -8,6 +8,8 @@ from workflow import Workflow3, ICON_SYNC
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
+req_cache_key = 'zcy-confluence-search-req-key-20190102'
+req_cache_timeout = 30 * 24 * 60 * 60
 auth_file = '.zcy_alfred'
 
 home_url = 'http://confluence.cai-inc.com'
@@ -17,10 +19,23 @@ empty_result = 'No results found for {query}'
 
 
 def main(wf):
-    req = requests.session()
-    req.post(login_url, data=get_login_data())
+    # get session request object from cache
+    req = wf.cached_data(req_cache_key, get_auth_req, req_cache_timeout)
+
     query = ' '.join(wf.args)
-    resp = req.get(search_url.format(query=query))
+    search_url_entity = search_url.format(query=query)
+
+    resp = req.get(search_url_entity)
+
+    # session invalid
+    if not has_login(resp):
+        wf.logger.debug('cached auth request object is not successful')
+        req = get_auth_req()
+        wf.cache_data(req_cache_key, req)
+        resp = req.get(search_url_entity)
+    else:
+        wf.logger.debug('cached auth request object is successful')
+
     soup = BeautifulSoup(resp.content, 'html.parser')
     res_ol = soup.select('ol[class="search-results cql"]')
     if len(res_ol) == 0:
@@ -36,13 +51,21 @@ def main(wf):
         wf.send_feedback()
 
 
-def get_login_data():
+def get_auth_req():
     with open(os.path.join(os.environ['HOME'], auth_file), 'r') as r:
         jd = json.load(r)
-        return {
+        login_data = {
             'os_username': jd.get('username'),
             'os_password': jd.get('password')
         }
+        req = requests.session()
+        req.post(login_url, data=login_data)
+        wf.logger.debug('login to fetch auth request object')
+        return req
+
+
+def has_login(resp):
+    return 'os_password' not in resp.content
 
 
 if __name__ == '__main__':

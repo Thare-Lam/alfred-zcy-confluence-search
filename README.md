@@ -23,3 +23,11 @@ Quick search in ZCY Confluence
 ## Download
 
 [ZCY Confluence Search](https://github.com/Thare-Lam/alfred-zcy-confluence-search/releases)
+
+## Upgrade Log
+
+### v1.0.0
+- First Release
+
+### v1.0.1
+- Add cache to avoid logging in before each use
