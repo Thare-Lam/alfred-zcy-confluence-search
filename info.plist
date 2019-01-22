@@ -27,7 +27,7 @@
 	<key>description</key>
 	<string>Quick Search in ZCY Confluence</string>
 	<key>version</key>
-	<string>1.0.1</string>
+	<string>1.0.2</string>
 	<key>disabled</key>
 	<false/>
 	<key>name</key>

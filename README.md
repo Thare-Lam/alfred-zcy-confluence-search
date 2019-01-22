@@ -31,3 +31,6 @@ Quick search in ZCY Confluence
 
 ### v1.0.1
 - Add cache to avoid logging in before each use
+
+### v1.0.2
+- Remove **requests** package
